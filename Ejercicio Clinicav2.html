@@ -2,73 +2,46 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Clínica Médica - Gestión</title>
+  <title>Clínica Médica - App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center">
 
-  <!-- HEADER -->
-  <header class="bg-blue-600 w-full text-white p-4 text-center text-xl font-bold">
-    Clínica Médica - Ginecología, Obstetricia y Pediatría
+  <!-- Portada con imagen -->
+  <header class="w-full relative">
+    <img src="https://raw.githubusercontent.com/MayraGC233/Ejercicio-clinicav2/main/clinica.jpg" 
+         alt="Clínica Médica" 
+         class="w-full h-64 object-cover">
+    <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white">
+      <h1 class="text-3xl font-bold">Clínica Médica</h1>
+      <p class="text-lg">Ginecología • Obstetricia • Pediatría</p>
+    </div>
   </header>
 
-  <!-- NAV -->
-  <nav class="flex space-x-4 mt-4">
-    <button onclick="showTab('pacientes')" class="tab-btn bg-blue-500 text-white px-4 py-2 rounded">Pacientes</button>
-    <button onclick="showTab('consultas')" class="tab-btn bg-gray-300 px-4 py-2 rounded">Consultas</button>
-    <button onclick="showTab('citas')" class="tab-btn bg-gray-300 px-4 py-2 rounded">Citas</button>
-    <button onclick="loadResumen()" class="tab-btn bg-green-600 text-white px-4 py-2 rounded">📊 Resumen</button>
+  <!-- Menú de navegación -->
+  <nav class="bg-blue-600 w-full flex justify-center space-x-4 p-3 text-white font-semibold">
+    <button onclick="mostrarSeccion('pacientes')">Pacientes</button>
+    <button onclick="mostrarSeccion('consultas')">Consultas</button>
+    <button onclick="mostrarSeccion('citas')">Citas</button>
+    <button onclick="mostrarSeccion('resumen')">📊 Resumen</button>
   </nav>
 
-  <!-- MAIN -->
-  <main class="p-6 w-full max-w-3xl">
+  <main class="p-6 w-full max-w-3xl space-y-6">
 
-    <!-- FORM PACIENTES -->
-    <section id="pacientes" class="tab-content bg-white shadow-md rounded-lg p-6 space-y-4 mt-6">
-      <h2 class="text-lg font-semibold">Registro de Paciente</h2>
-      <form id="formPacientes" class="space-y-4">
-        <input type="hidden" name="tipo" value="Pacientes">
-
-        <div>
+    <!-- Formularios -->
+    <section id="pacientes" class="seccion hidden">
+      <h2 class="text-xl font-bold mb-2">Registro de Pacientes</h2>
+      <form class="formulario bg-white p-4 rounded shadow" data-tipo="Pacientes">
+        <div class="mb-2">
           <label class="block">Nombre completo:</label>
           <input type="text" name="nombre" class="border p-2 w-full rounded" required>
         </div>
-
-        <div>
+        <div class="mb-2">
           <label class="block">Edad:</label>
           <input type="number" name="edad" class="border p-2 w-full rounded" required>
         </div>
-
-        <div>
-          <label class="block">🚨 Nivel de urgencia:</label>
-          <select name="urgencia" class="border p-2 w-full rounded" required>
-            <option disabled selected>Seleccionar</option>
-            <option>Bajo</option>
-            <option>Moderado</option>
-            <option>Alto</option>
-          </select>
-        </div>
-
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          Guardar Paciente
-        </button>
-      </form>
-    </section>
-
-    <!-- FORM CONSULTAS -->
-    <section id="consultas" class="tab-content hidden bg-white shadow-md rounded-lg p-6 space-y-4 mt-6">
-      <h2 class="text-lg font-semibold">Registro de Consulta</h2>
-      <form id="formConsultas" class="space-y-4">
-        <input type="hidden" name="tipo" value="Consultas">
-
-        <div>
-          <label class="block">Nombre del paciente:</label>
-          <input type="text" name="paciente" class="border p-2 w-full rounded" required>
-        </div>
-
-        <div>
+        <div class="mb-2">
           <label class="block">Especialidad:</label>
           <select name="especialidad" class="border p-2 w-full rounded" required>
             <option disabled selected>Seleccionar</option>
@@ -77,142 +50,126 @@
             <option>Pediatría</option>
           </select>
         </div>
+        <div class="mb-2">
+          <label class="block">🚨 Nivel de urgencia:</label>
+          <select name="urgencia" class="border p-2 w-full rounded" required>
+            <option disabled selected>Seleccionar</option>
+            <option>Bajo</option>
+            <option>Moderado</option>
+            <option>Alto</option>
+          </select>
+        </div>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Guardar</button>
+      </form>
+      <div class="mensaje mt-2"></div>
+    </section>
 
-        <div>
+    <section id="consultas" class="seccion hidden">
+      <h2 class="text-xl font-bold mb-2">Registro de Consultas</h2>
+      <form class="formulario bg-white p-4 rounded shadow" data-tipo="Consultas">
+        <div class="mb-2">
+          <label class="block">Número de paciente:</label>
+          <input type="text" name="idPaciente" class="border p-2 w-full rounded" required>
+        </div>
+        <div class="mb-2">
           <label class="block">Diagnóstico:</label>
           <textarea name="diagnostico" class="border p-2 w-full rounded" required></textarea>
         </div>
-
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          Guardar Consulta
-        </button>
+        <div class="mb-2">
+          <label class="block">Tratamiento:</label>
+          <textarea name="tratamiento" class="border p-2 w-full rounded" required></textarea>
+        </div>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Guardar</button>
       </form>
+      <div class="mensaje mt-2"></div>
     </section>
 
-    <!-- FORM CITAS -->
-    <section id="citas" class="tab-content hidden bg-white shadow-md rounded-lg p-6 space-y-4 mt-6">
-      <h2 class="text-lg font-semibold">Registro de Cita</h2>
-      <form id="formCitas" class="space-y-4">
-        <input type="hidden" name="tipo" value="Citas">
-
-        <div>
-          <label class="block">Paciente:</label>
-          <input type="text" name="paciente" class="border p-2 w-full rounded" required>
+    <section id="citas" class="seccion hidden">
+      <h2 class="text-xl font-bold mb-2">Registro de Citas</h2>
+      <form class="formulario bg-white p-4 rounded shadow" data-tipo="Citas">
+        <div class="mb-2">
+          <label class="block">Número de paciente:</label>
+          <input type="text" name="idPaciente" class="border p-2 w-full rounded" required>
         </div>
-
-        <div>
+        <div class="mb-2">
           <label class="block">Fecha:</label>
           <input type="date" name="fecha" class="border p-2 w-full rounded" required>
         </div>
-
-        <div>
+        <div class="mb-2">
           <label class="block">Hora:</label>
           <input type="time" name="hora" class="border p-2 w-full rounded" required>
         </div>
-
-        <div>
-          <label class="block">Doctor:</label>
-          <input type="text" name="doctor" class="border p-2 w-full rounded" required>
-        </div>
-
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          Guardar Cita
-        </button>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Guardar</button>
       </form>
+      <div class="mensaje mt-2"></div>
     </section>
 
-    <!-- RESUMEN -->
-    <section id="resumen" class="tab-content hidden bg-white shadow-md rounded-lg p-6 mt-6">
-      <h2 class="text-lg font-semibold mb-4">📊 Resumen de Registros</h2>
-      <button onclick="loadResumen()" class="mb-4 bg-green-500 text-white px-3 py-1 rounded">🔄 Refrescar</button>
-      <div class="overflow-x-auto">
-        <table class="min-w-full border border-gray-300">
-          <thead class="bg-gray-200" id="resumenHead"></thead>
-          <tbody id="resumenBody"></tbody>
-        </table>
-      </div>
+    <!-- Resumen -->
+    <section id="resumen" class="seccion hidden">
+      <h2 class="text-xl font-bold mb-2">📊 Resumen General</h2>
+      <div id="tablaResumen" class="overflow-x-auto bg-white rounded shadow p-4"></div>
     </section>
-
-    <!-- MENSAJES -->
-    <div id="mensaje" class="mt-4 text-center font-semibold"></div>
   </main>
 
   <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbyRVqoyyOEA0tV84z5tirsNnMXrxXoky6_iE0vgxSbnljesDMo7acjIw33qMwZYvCnM/exec";
-    const mensaje = document.getElementById("mensaje");
 
-    // TAB MANAGEMENT
-    function showTab(id) {
-      document.querySelectorAll(".tab-content").forEach(sec => sec.classList.add("hidden"));
+    // Navegación
+    function mostrarSeccion(id) {
+      document.querySelectorAll(".seccion").forEach(s => s.classList.add("hidden"));
       document.getElementById(id).classList.remove("hidden");
-      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("bg-blue-500","text-white"));
-      event.target.classList.add("bg-blue-500","text-white");
+      if (id === "resumen") cargarResumen();
     }
 
-    // FORM HANDLER
-    function handleForm(formId) {
-      const form = document.getElementById(formId);
+    // Formularios
+    document.querySelectorAll(".formulario").forEach(form => {
       form.addEventListener("submit", e => {
         e.preventDefault();
-        const formData = Object.fromEntries(new FormData(form).entries());
+        const tipo = form.dataset.tipo;
+        const data = Object.fromEntries(new FormData(form).entries());
+        data.tipo = tipo;
 
         fetch(scriptURL, {
           method: "POST",
-          body: JSON.stringify(formData),
+          body: JSON.stringify(data),
           headers: { "Content-Type": "application/json" }
         })
         .then(res => res.json())
-        .then(data => {
-          if (data.result === "success") {
-            mensaje.textContent = "✅ Registro guardado correctamente en Google Sheets";
-            mensaje.className = "mt-4 text-green-600 font-semibold";
-            form.reset();
-          } else {
-            mensaje.textContent = "⚠️ Error al guardar: " + data.message;
-            mensaje.className = "mt-4 text-red-600 font-semibold";
-          }
+        .then(resp => {
+          form.nextElementSibling.textContent = "✅ " + resp.message;
+          form.reset();
         })
         .catch(err => {
-          mensaje.textContent = "❌ Error de conexión con Google Apps Script";
-          mensaje.className = "mt-4 text-red-600 font-semibold";
-          console.error(err);
+          form.nextElementSibling.textContent = "❌ Error: " + err.message;
         });
       });
-    }
+    });
 
-    handleForm("formPacientes");
-    handleForm("formConsultas");
-    handleForm("formCitas");
-
-    // CARGAR RESUMEN DESDE SHEETS
-    function loadResumen() {
+    // Resumen
+    function cargarResumen() {
       fetch(scriptURL + "?action=read")
         .then(res => res.json())
         .then(data => {
-          const head = document.getElementById("resumenHead");
-          const body = document.getElementById("resumenBody");
-          head.innerHTML = "";
-          body.innerHTML = "";
-
-          if (data.length > 0) {
-            // Headers
-            const headers = Object.keys(data[0]);
-            let tr = "<tr>";
-            headers.forEach(h => { tr += `<th class='border px-2 py-1'>${h}</th>`; });
-            tr += "</tr>";
-            head.innerHTML = tr;
-
-            // Rows
-            data.forEach(row => {
-              let tr = "<tr>";
-              headers.forEach(h => { tr += `<td class='border px-2 py-1'>${row[h]}</td>`; });
-              tr += "</tr>";
-              body.innerHTML += tr;
-            });
+          if (!data.length) {
+            document.getElementById("tablaResumen").innerHTML = "<p>No hay registros.</p>";
+            return;
           }
-        })
-        .catch(err => console.error("Error cargando resumen:", err));
+          const headers = Object.keys(data[0]);
+          let html = "<table class='table-auto w-full border'><thead><tr>";
+          headers.forEach(h => html += `<th class='border px-2 py-1'>${h}</th>`);
+          html += "</tr></thead><tbody>";
+          data.forEach(row => {
+            html += "<tr>";
+            headers.forEach(h => html += `<td class='border px-2 py-1'>${row[h] || ""}</td>`);
+            html += "</tr>";
+          });
+          html += "</tbody></table>";
+          document.getElementById("tablaResumen").innerHTML = html;
+        });
     }
+
+    // Mostrar sección por defecto
+    mostrarSeccion("pacientes");
   </script>
 </body>
 </html>
